@@ -40,8 +40,8 @@ sub twitter01 : Tests {
     $b2->tweet($tweets[1]);
     $b3->tweet($tweets[2]);
     
-    is_deeply $b1->{follow_list}, [$b2,$b3];
-    is_deeply $b1->{follower_list}, [$b3];
+    is_deeply $b1->{follow_list}, {$b2=>1,$b3=>1};
+    is_deeply $b1->{follower_list}, {$b3=>1};
     
     my $b1_timeline = $b1->friends_timeline;
     is $b1_timeline->[0]->get_message, $tweets[2];

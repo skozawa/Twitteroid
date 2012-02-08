@@ -9,8 +9,8 @@ sub new {
     my ($manager, $attrs) = @_;
     my $this = {
 	manager => $manager,
-	follow_list => [],
-	follower_list => [],
+	follow_list => {},
+	follower_list => {},
 	tweet_list => [],
 	%$attrs,
     };
@@ -35,7 +35,7 @@ sub follow {
     my $follow = shift;
     
     ## follow listに追加
-    push @{$this->{follow_list}}, $follow;
+    $this->{follow_list}->{$follow} = 1;
     ## followしたbirdのfollowerへの追加
     $this->{manager}->follow($this, $follow);
     
@@ -45,7 +45,7 @@ sub follower {
     my $this = shift;
     my $follower = shift;
     
-    push @{$this->{follower_list}}, $follower;
+    $this->{follower_list}->{$follower} = 1;
 }
 
 sub friends_timeline {
