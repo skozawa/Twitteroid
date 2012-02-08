@@ -16,12 +16,11 @@ sub new {
 sub initialize {
     my $this = shift;
     
-    my @all_tweet;
+    my @all_tweet = ();
     foreach my $name (keys %{$this->{bird_list}}) {
 	push @all_tweet, @{$this->{bird_list}->{$name}->{tweet_list}};
     }
-    
-    $this->{tweet_list} = sort {$b->{time} <=> $a->{time}}  @all_tweet;
+    @{$this->{tweet_list}} = sort {$b->{time} <=> $a->{time}}  @all_tweet;
 }
 
 ## タイムラインにTweetを追加
