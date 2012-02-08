@@ -23,6 +23,18 @@ sub initialize {
     @{$this->{tweet_list}} = sort {$b->{time} <=> $a->{time}}  @all_tweet;
 }
 
+## bird_listにbirdが存在するかを確認
+sub exist_bird {
+    my $this = shift;
+    my $bird_name = shift;
+    
+    if(defined $this->{bird_list}->{$bird_name}) {
+	return 1;
+    } else {
+	return 0;
+    }
+}
+
 ## タイムラインにTweetを追加
 sub add_tweet {
     my $this = shift;

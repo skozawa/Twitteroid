@@ -59,7 +59,7 @@ sub add_tweet {
     
     foreach my $name (keys %{$this->{timeline_list}}) {
 	my $timeline = $this->{timeline_list}->{$name};
-	if(defined $timeline->{bird_list}->{$bird_name}) {
+	if($timeline->exist_bird($bird_name)) {
 	    $timeline->add_tweet($tweet);
 	}
     }
