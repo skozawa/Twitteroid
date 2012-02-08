@@ -1,11 +1,11 @@
 package Timeline;
 use strict;
 
-use base qw(Class::Accessor);
-__PACKAGE__->follow_best_practice;
-__PACKAGE__->mk_accessor(qw/owner/);
+sub initialize {
+    die;
+}
 
-sub create_timeline {
+sub add_tweet {
     die;
 }
 

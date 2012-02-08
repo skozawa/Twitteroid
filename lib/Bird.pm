@@ -1,9 +1,9 @@
 package Bird;
 use strict;
 
-use base qw(Classs::Accessor);
+use base qw(Class::Accessor);
 __PACKAGE__->follow_best_practice;
-__PACKAGE__->mk_accessor(qw/name/);
+__PACKAGE__->mk_accessors(qw/name/);
 
 sub tweet {
     die;
@@ -13,5 +13,8 @@ sub follow {
     die;
 }
 
+sub follower {
+    die;
+}
 
 1;
