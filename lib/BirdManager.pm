@@ -26,7 +26,10 @@ sub add_bird {
     my $bird = SmallBird->new($this, $attrs);
     
     $this->{bird_list}->{$bird->get_name} = $bird;
-        
+    
+    ## followしたBird用のタイムラインを生成
+    $this->add_timeline($bird->get_name."_friends", []);
+    
     return $bird;
 }
 
@@ -35,9 +38,9 @@ sub add_timeline {
     my $this = shift;
     my ($name, $bird_list) = @_;
     
-    my $timeline = TweetTimeline->new({bird_list=>$bird_list});
+    my $timeline = TweetTimeline->new();
+    $timeline->add_bird($bird_list);
     $this->{timeline_list}->{$name} = $timeline;
-    $timeline->initialize();
 }
 
 ## Timelineの取得
@@ -71,9 +74,18 @@ sub follow {
     
     $bird2->follower($bird1);
     
-    my $b1_friends_timeline = $this->{timeline_list}->{$bird1->get_name."_friends"};
-    $b1_friends_timeline->add_bird($bird2->get_name, $bird2);
+    $this->add_bird_to_timeline($bird1->get_name."_friends", [$bird2]);
 }
+
+## タイムラインにbirdを追加
+sub add_bird_to_timeline {
+    my $this = shift;
+    my ($timeline_name, $bird_list) = @_;
+
+    my $timeline = $this->{timeline_list}->{$timeline_name};
+    $timeline->add_bird($bird_list);
+}
+
 
 ## bird1がunfollowしたとき発生
 ## bird2のfollower_listからbird1を削除
@@ -84,10 +96,17 @@ sub unfollow {
     
     $bird2->unfollower($bird1);
     
-    my $b1_friends_timeline = $this->{timeline_list}->{$bird1->get_name."_friends"};
-    $b1_friends_timeline->remove_bird($bird2->get_name, $bird2);
+    $this->remove_bird_from_timeline($bird1->get_name."_friends", [$bird2]);
 }
 
+## タイムラインからbirdを削除
+sub remove_bird_from_timeline {
+    my $this = shift;
+    my ($timeline_name, $bird_list) = @_;
+    
+    my $timeline = $this->{timeline_list}->{$timeline_name};
+    $timeline->remove_bird($bird_list);
+}
 
 1;
 

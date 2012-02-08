@@ -35,18 +35,24 @@ sub add_tweet {
 ## タイムラインを初期化（再ソート）
 sub add_bird {
     my $this = shift;
-    my ($name, $bird) = @_;
+    my ($birds) = @_;
     
-    $this->{bird_list}->{$name} = $bird;
+    foreach my $bird (@$birds) {
+	next if(ref($bird) ne "SmallBird" || defined $this->{bird_list}->{$bird->get_name});
+	$this->{bird_list}->{$bird->get_name} = $bird;
+    }
     $this->initialize();
 }
 
 ## TimelineからBirdを削除
 sub remove_bird {
     my $this = shift;
-    my ($name) = @_;
+    my ($birds) = @_;
     
-    delete $this->{bird_list}->{$name};
+    foreach my $bird (@$birds) {
+	next if(ref($bird) ne "SmallBird" || !defined $this->{bird_list}->{$bird->get_name});
+	delete $this->{bird_list}->{$bird->get_name};
+    }
     $this->initialize();
 }
 
