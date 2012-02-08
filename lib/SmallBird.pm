@@ -34,6 +34,8 @@ sub follow {
     my $this = shift;
     my $follow = shift;
     
+    return if(!defined $follow);
+    
     ## follow listに追加
     $this->{follow_list}->{$follow} = 1;
     ## followしたbirdのfollowerへの追加
@@ -45,7 +47,28 @@ sub follower {
     my $this = shift;
     my $follower = shift;
     
+    return if(!defined $follower);
+    
     $this->{follower_list}->{$follower} = 1;
+}
+
+sub unfollow {
+    my $this = shift;
+    my $unfollow = shift;
+    
+    return if(!defined $unfollow);
+    
+    delete $this->{follow_list}->{$unfollow};
+    $this->{manager}->unfollow($this, $unfollow);
+}
+
+sub unfollower {
+    my $this = shift;
+    my $unfollower = shift;
+    
+    return if(!defined $unfollower);
+    
+    delete $this->{follower_list}->{$unfollower};
 }
 
 sub friends_timeline {

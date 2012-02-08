@@ -41,8 +41,13 @@ sub add_bird {
     $this->initialize();
 }
 
+## TimelineからBirdを削除
 sub remove_bird {
     my $this = shift;
+    my ($name) = @_;
+    
+    delete $this->{bird_list}->{$name};
+    $this->initialize();
 }
 
 

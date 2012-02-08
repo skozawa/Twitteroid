@@ -19,7 +19,12 @@ sub new {
 ## Birdの追加
 sub add_bird {
     my $this = shift;
-    my $bird = SmallBird->new($this, @_);
+    my ($attrs) = @_;
+    
+    if(!defined $attrs || !defined $attrs->{name}){ die "Not define bird name";}
+    
+    my $bird = SmallBird->new($this, $attrs);
+    
     $this->{bird_list}->{$bird->get_name} = $bird;
         
     return $bird;
@@ -57,9 +62,9 @@ sub add_tweet {
     }
 }
 
-## Bird1がfollowしたとき発生
-## followされたBird2のfollowerへ追加
-## Bird1のタイムラインにBird2を追加
+## bird1がfollowしたとき発生
+## followされたbird2のfollowerへ追加
+## bird1のタイムラインにbird2を追加
 sub follow {
     my $this = shift;
     my ($bird1, $bird2) = @_;
@@ -70,6 +75,18 @@ sub follow {
     $b1_friends_timeline->add_bird($bird2->get_name, $bird2);
 }
 
+## bird1がunfollowしたとき発生
+## bird2のfollower_listからbird1を削除
+## bird1のタイムラインからbird2を除去
+sub unfollow {
+    my $this = shift;
+    my ($bird1, $bird2) = @_;
+    
+    $bird2->unfollower($bird1);
+    
+    my $b1_friends_timeline = $this->{timeline_list}->{$bird1->get_name."_friends"};
+    $b1_friends_timeline->remove_bird($bird2->get_name, $bird2);
+}
 
 
 1;

@@ -5,6 +5,7 @@ use warnings;
 
 use base qw(Test::Class);
 use Test::More;
+use Test::Exception;
 
 use BirdManager;
 
@@ -57,7 +58,6 @@ sub twitter02 : Test {
     my @tweets = (["Tweet1-1","Tweet1-2"],
 		  ["Tweet2-1","Tweet2-2"],
 		  ["Tweet3-1"],
-		  ["Tweet4-1"]
 		  );
     
     my $b1 = $BM->add_bird({ name => 'user1' });
@@ -79,6 +79,7 @@ sub twitter02 : Test {
     is $b2_tl->[0]->get_message, $tweets[0][1];
     
     my $b3 = $BM->add_bird({ name => 'user3' });
+    dies_ok {$BM->add_bird();}
     $b3->tweet($tweets[2][0]);
     
     $b1->follow($b3);
@@ -90,6 +91,10 @@ sub twitter02 : Test {
     my $b3_tl = $b3->friends_timeline;
     $b3->follow($b2);
     is $b3_tl->[0]->get_message, $tweets[1][1];
+    
+    $b1->unfollow($b3);
+    is $b1_tl->[0]->get_message, $tweets[1][1];
+    is $b1_tl->[1]->get_message, $tweets[1][0];
 }
 
 
