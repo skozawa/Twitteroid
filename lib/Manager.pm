@@ -13,6 +13,25 @@ sub add_timeline {
     die;
 }
 
+sub get_timeline {
+    die;
+}
+
+sub follow {
+    die;
+}
+
+sub unfollow {
+    die;
+}
+
+sub add_bird_to_timeline {
+    die;
+}
+
+sub remove_bird_to_timeline {
+    die;
+}
 
 
 1;

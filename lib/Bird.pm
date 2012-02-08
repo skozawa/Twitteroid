@@ -13,7 +13,15 @@ sub follow {
     die;
 }
 
+sub unfollow {
+    die;
+}
+
 sub follower {
+    die;
+}
+
+sub unfollower {
     die;
 }
 
