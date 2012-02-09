@@ -1,5 +1,6 @@
 package TweetTimeline;
 use strict;
+use warnings;
 
 use base qw(Timeline);
 

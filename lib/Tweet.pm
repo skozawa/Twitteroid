@@ -1,5 +1,6 @@
 package Tweet;
 use strict;
+use warnings;
 
 use base qw(Class::Accessor);
 __PACKAGE__->follow_best_practice;

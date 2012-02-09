@@ -1,5 +1,6 @@
 package Manager;
 use strict;
+use warnings;
 
 sub add_bird {
     die;

@@ -1,6 +1,7 @@
 ## BirdとTimelineの管理
 package BirdManager;
 use strict;
+use warnings;
 
 use base qw(Manager);
 use SmallBird;
@@ -28,7 +29,8 @@ sub add_bird {
     $this->{bird_list}->{$bird->get_name} = $bird;
     
     ## followしたBird用のタイムラインを生成
-    $this->add_timeline($bird->get_name."_friends", []);
+    my $timeline_name = $this->make_timeline_name($bird->get_name, "friends");
+    $this->add_timeline($timeline_name, []);
     
     return $bird;
 }
@@ -42,6 +44,18 @@ sub add_timeline {
     $timeline->add_bird($bird_list);
     $this->{timeline_list}->{$name} = $timeline;
 }
+
+## タイムラインの名前を生成
+sub make_timeline_name {
+    my $this = shift;
+    my ($bird_name, $type, $list_name) = @_;
+    
+    my $timeline_name = $bird_name."_".$type;
+    $timeline_name .= "_".$list_name if ( defined $list_name );
+    
+    return $timeline_name;
+}
+
 
 ## Timelineの取得
 sub get_timeline {
@@ -72,7 +86,7 @@ sub follow {
     my $this = shift;
     my ($bird1, $bird2) = @_;
     
-    $bird2->follower($bird1);
+    $bird2->add_follower($bird1);
     
     $this->add_bird_to_timeline($bird1->get_name."_friends", [$bird2]);
 }
@@ -94,7 +108,7 @@ sub unfollow {
     my $this = shift;
     my ($bird1, $bird2) = @_;
     
-    $bird2->unfollower($bird1);
+    $bird2->remove_follower($bird1);
     
     $this->remove_bird_from_timeline($bird1->get_name."_friends", [$bird2]);
 }
